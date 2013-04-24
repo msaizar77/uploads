@@ -1,0 +1,49 @@
+<html>
+<head>
+	<title>Test Ajax Upload</title>
+
+	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+	<script type="text/javascript">
+
+		function shipOff(event) {
+		    var result = event.target.result;
+		    var fileName = document.getElementById('archivo').files[0].name; //Should be 'picture.jpg'
+		    $.post('process_upload.php', { data: result, name: fileName }, continueSubmission);
+		}
+
+		function continueSubmission(json){
+			alert(json);
+		}
+
+		$(function(){
+
+			$("#submit_file_form").submit(function(event) {
+				event.preventDefault();
+				var file = document.getElementById('archivo').files[0];
+				var reader = new FileReader();
+				reader.readAsArrayBuffer(file);
+				reader.onload = shipOff;
+			}); // END SUBMIT
+
+		});
+		
+	</script>
+
+</head>
+<body>
+
+	<form name="submit_file_form" id="submit_file_form" method="POST" enctype="multipart/form-data" >
+		Nombre<br>
+		<input type="text" name="nombre" id="nombre" /><br>
+		<input type="file" name="archivo" id="archivo" /><br>
+		<button name="boton_envio" id="boton_envio" type="submit" >Enviar</button>
+	</form>
+
+	<div>
+		<a href="http://stackoverflow.com/questions/4006520/using-html5-file-uploads-with-ajax-and-jquery">Source Code</a><br>
+		<a href="https://github.com/blueimp/jQuery-File-Upload">Github: jQuery-File-Upload</a><br>
+		<br>
+	</div>
+
+</body>
+</html>

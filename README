@@ -1,0 +1,1 @@
+Mix traditional forms (action=file.php) whit ajax forms to upload files (whitout refresh the page) and send others fields by ajax.

@@ -1,0 +1,59 @@
+<html>
+<head>
+	<title>Test Ajax Upload</title>
+
+	<script type="text/javascript" src="../js/jquery-1.9.1.js"></script>
+	<script type="text/javascript">
+
+		$(function(){
+
+			$("#boton_enviar_ajax").click(function(event) {
+				event.preventDefault();
+				$("#ajax_form").submit();
+			});
+
+			$("#ajax_form").submit(function(event) {
+				event.preventDefault();
+				
+				$nombre2 = $('#nombre2').val();
+				$apellido2 = $('#apellido2').val();
+				$edad2 = $('#edad2').val();
+
+				$.ajax({
+					type: "POST",
+					url: "some.php",
+					dataType: "json",
+					data: { nombre2: $nombre2, apellido2: $apellido2, edad2: $edad2 },
+					success: function(data, textStatus, jqXHR){
+            			//alert('Success - TextStatus: ' + textStatus);
+            			//alert(JSON.stringify(data, null, 2));
+            			$("#iframe_element").contents().find("#oculto").val(data.nombre2);
+            			$("#iframe_element").contents().find("#iframe_submit_file_form").submit();
+					},
+					error: function(jqXHR, textStatus, errorThrown) { 
+						alert('The detail cant\'t be succesfully inserted (' + textStatus + ' - ' + jqXHR.responseText + ')');
+					}
+				});
+			}); // END SUBMIT
+
+		});
+	</script>
+
+</head>
+<body>
+
+	<form name="ajax_form" id="ajax_form" >
+		Nombre<br>
+		<input type="text" name="nombre2" id="nombre2" /><br>
+		Apellido<br>
+		<input type="text" name="apellido2" id="apellido2" /><br>
+		Edad<br>
+		<input type="text" name="edad2" id="edad2" /><br>
+		Adjunto<br>
+		<iframe id="iframe_element" src="iframe_form.php" style="border: none; height: 50px; margin: -8px, width: 450px;"></iframe>
+		<br>
+		<button id="boton_enviar_ajax" >Enviar</button>
+	</form>
+
+</body>
+</html>
